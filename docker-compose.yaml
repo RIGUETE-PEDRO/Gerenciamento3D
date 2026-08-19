@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: impressao3d-postgres
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: impressao3d
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - /home/riguete/Impressora3D/Gerencimaneto3D/Banco:/var/lib/postgresql/data
