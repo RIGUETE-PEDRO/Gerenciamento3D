@@ -1,16 +1,40 @@
 package com.impressao.Gerencimaneto3D.service;
 
-import com.impressao.Gerencimaneto3D.controller.LoginAPIController.LoginRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
-import jakarta.validation.Valid;
+import com.impressao.Gerencimaneto3D.Request.LoginRequest;
+import com.impressao.Gerencimaneto3D.model.UsuarioEntity;
+import com.impressao.Gerencimaneto3D.repository.UsuarioRepository;
 
+@Service
 public class LoginSevice {
 
-   
+    private final PasswordEncoder passwordEncoder;
+    private final UsuarioRepository usuarioRepository;
 
-    public void login(LoginRequest loginRequest) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'login'");
+    public LoginSevice(
+            PasswordEncoder passwordEncoder,
+            UsuarioRepository usuarioRepository) {
+
+        this.passwordEncoder = passwordEncoder;
+        this.usuarioRepository = usuarioRepository;
     }
+
+    public boolean login(LoginRequest loginRequest) {
+
+        UsuarioEntity usuario = usuarioRepository
+                .findByEmail(loginRequest.username())
+                .orElse(null);
+
+        if (usuario == null) {
+            return false;
+        }
+
+        return passwordEncoder.matches(
+                loginRequest.password(),
+                usuario.getSenha());
+    }
+
     
 }

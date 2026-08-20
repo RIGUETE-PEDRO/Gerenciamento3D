@@ -1,0 +1,6 @@
+CREATE table Usuarios(
+    id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    nome TEXT NOT NULL,
+    email TEXT NOT NULL,
+    senha TEXT NOT NULL
+)
