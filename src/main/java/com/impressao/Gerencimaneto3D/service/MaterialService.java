@@ -1,5 +1,7 @@
 package com.impressao.Gerencimaneto3D.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.impressao.Gerencimaneto3D.Request.MaterialRequest;
@@ -33,8 +35,30 @@ public class MaterialService {
     }
 
 
-    public MaterialEntity listarMateriais() {
-        return materialRepository.findAll().stream().findFirst().orElse(null);
+    public List<MaterialEntity> listarMateriais() {
+        return materialRepository.findAll();
+    }
+
+    public boolean atualizarMaterial(Long id, MaterialRequest request) {
+        return materialRepository.findById(id).map(material -> {
+            material.setNome(request.nome());
+            material.setTipo(request.tipo());
+            material.setCor(request.cor());
+            material.setCusto(request.custo());
+            material.setQuantidade(request.quantidade());
+            material.setLojaId(request.lojaId());
+            material.setDataCompra(request.dataCompra());
+            materialRepository.save(material);
+            return true;
+        }).orElse(false);
+    }
+
+    public boolean excluirMaterial(Long id) {
+        if (!materialRepository.existsById(id)) {
+            return false;
+        }
+        materialRepository.deleteById(id);
+        return true;
     }
     
  
