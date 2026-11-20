@@ -9,8 +9,11 @@ import com.impressao.Gerencimaneto3D.service.PedidoService;
 import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
@@ -33,6 +36,24 @@ public class PedidoController {
         return "Pedido cadastrado com sucesso";
         
         
+    }
+
+    @PutMapping ("/atualizar/{id}")
+    public ResponseEntity<String> atualizar(@Valid @RequestBody PedidoRequest request, @PathVariable Long id) {
+        boolean sucesso = pedidoService.atualizarPedido(id, request);
+        if (!sucesso) {
+            return ResponseEntity.status(400).body("Erro ao atualizar pedido");
+        }
+        return ResponseEntity.ok("Pedido atualizado com sucesso");
+    }
+
+    @DeleteMapping ("/deletar/{id}")
+    public ResponseEntity<String> deletar(@PathVariable Long id) {
+        boolean sucesso = pedidoService.deletarPedido(id);
+        if (!sucesso) {
+            return ResponseEntity.status(400).body("Erro ao deletar pedido");
+        }
+        return ResponseEntity.ok("Pedido deletado com sucesso");
     }
     
     

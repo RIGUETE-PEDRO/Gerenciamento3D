@@ -8,6 +8,8 @@ import com.impressao.Gerencimaneto3D.Request.PedidoRequest;
 import com.impressao.Gerencimaneto3D.model.PedidoEntity;
 import com.impressao.Gerencimaneto3D.repository.PedidoRepository;
 
+import jakarta.validation.Valid;
+
 @Service
 public class PedidoService {
     public final PedidoRepository pedidoRepository;
@@ -34,6 +36,32 @@ public class PedidoService {
         pedidoRepository.save(pedido);
 
         return true;
+    }
+
+    public boolean deletarPedido(Long id) {
+        if (pedidoRepository.existsById(id)) {
+            pedidoRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean atualizarPedido(Long id, PedidoRequest request) {
+        PedidoEntity pedidoExistente = pedidoRepository.findById(id).orElse(null);
+        if (pedidoExistente != null) {
+            pedidoExistente.setNome(request.nome());
+            pedidoExistente.setDescricao(request.descricao());
+            pedidoExistente.setCategoria(request.categoria());
+            pedidoExistente.setMaterial(request.material());
+            pedidoExistente.setCor(request.cor());
+            pedidoExistente.setPrazoProducao(request.prazoProducao());
+            pedidoExistente.setQuantidade(request.quantidade());
+            pedidoExistente.setValorUnitario(request.valorUnitario());
+
+            pedidoRepository.save(pedidoExistente);
+            return true;
+        }
+        return false;
     }
     
 }

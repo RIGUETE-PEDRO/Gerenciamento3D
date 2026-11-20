@@ -39,8 +39,7 @@ public class CalcularController {
 
     }
 
-    @RequestMapping("/cadastro")
-    @PostMapping
+    @PostMapping("/cadastro")
     public ResponseEntity<String> cadastro(@Valid @RequestBody RegrasPorcetagemEntity cadastroRequest) {
 
         calcularService.cadastrarcalcular(cadastroRequest.nome(), cadastroRequest.porcentagem());
