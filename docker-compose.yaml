@@ -3,14 +3,30 @@ services:
     image: postgres:16
     container_name: impressao3d-postgres
     restart: unless-stopped
-
     environment:
       POSTGRES_DB: impressao3d
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-
-    ports:
-      - "5432:5432"
-
     volumes:
-      - /home/riguete/Impressora3D/Gerencimaneto3D/Banco:/var/lib/postgresql/data
+      - ./Banco:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d impressao3d"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: impressao3d-app
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/impressao3d
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    ports:
+      - "8080:8080"
