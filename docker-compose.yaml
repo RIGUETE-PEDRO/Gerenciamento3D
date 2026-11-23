@@ -17,7 +17,7 @@ services:
 
   app:
     build:
-      context: .
+      context: ./target/docker-context
       dockerfile: Dockerfile
     container_name: impressao3d-app
     restart: unless-stopped
