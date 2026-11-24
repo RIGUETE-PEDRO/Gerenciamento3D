@@ -5,9 +5,13 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.impressao.Gerencimaneto3D.dto.Porcetagem;
+import com.impressao.Gerencimaneto3D.Request.CalcularRequest;
+import com.impressao.Gerencimaneto3D.Request.RegistrarValoresRequest;
+import com.impressao.Gerencimaneto3D.dto.PorcetagemDTO;
 import com.impressao.Gerencimaneto3D.model.RegrasPorcentagemEntity;
 import com.impressao.Gerencimaneto3D.repository.RegrasPorcetagemRepository;
+
+import jakarta.validation.Valid;
 
 @Service 
 public class CalcularService {
@@ -30,11 +34,11 @@ public class CalcularService {
         return false;
     }
 
-    public ArrayList<Porcetagem> calcular(Double valor) {
-        ArrayList<Porcetagem> porcentagens = new ArrayList<>();
+    public ArrayList<PorcetagemDTO> calcular(Double valor) {
+        ArrayList<PorcetagemDTO> porcentagens = new ArrayList<>();
         for (RegrasPorcentagemEntity regra : regraRepository.findAll()) {
             double resultado = valor * (regra.getPorcentagem() / 100);
-            porcentagens.add(new Porcetagem(regra.getNome(), resultado));
+            porcentagens.add(new PorcetagemDTO(regra.getNome(), resultado));
         }
         
         return porcentagens;
@@ -65,6 +69,13 @@ public class CalcularService {
             regraRepository.deleteById(id);
             return true;
         }
+        return false;
+    }
+
+    public boolean salvarCalculo(RegistrarValoresRequest request) {
+        
+
+        
         return false;
     }
 }

@@ -7,9 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.impressao.Gerencimaneto3D.Request.CadastroRequest;
+import com.impressao.Gerencimaneto3D.Request.CalcularRequest;
+import com.impressao.Gerencimaneto3D.Request.RegistrarValoresRequest;
 import com.impressao.Gerencimaneto3D.Request.RegrasPorcetagemEntity;
-import com.impressao.Gerencimaneto3D.dto.CalcularRequest;
-import com.impressao.Gerencimaneto3D.dto.Porcetagem;
+import com.impressao.Gerencimaneto3D.dto.PorcetagemDTO;
 import com.impressao.Gerencimaneto3D.model.RegrasPorcentagemEntity;
 import com.impressao.Gerencimaneto3D.service.CalcularService;
 import com.impressao.Gerencimaneto3D.service.LoginSevice;
@@ -33,8 +34,8 @@ public class CalcularController {
     }
 
     @PostMapping
-    public ResponseEntity<ArrayList<Porcetagem>> calcular(@Valid @RequestBody CalcularRequest request ) {
-        ArrayList<Porcetagem> porcentagens = calcularService.calcular(request.getValor());
+    public ResponseEntity<ArrayList<PorcetagemDTO>> calcular(@Valid @RequestBody CalcularRequest request ) {
+        ArrayList<PorcetagemDTO> porcentagens = calcularService.calcular(request.getValor());
         return ResponseEntity.ok(porcentagens);
 
     }
@@ -74,4 +75,15 @@ public class CalcularController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PostMapping ("calcular/salvar")
+    public ResponseEntity<String> salvar(@Valid @RequestBody RegistrarValoresRequest request) {
+        boolean sucesso = calcularService.salvarCalculo(request);
+        if (sucesso) {
+            return ResponseEntity.ok("Valor salvo com sucesso");
+        } else {
+            return ResponseEntity.status(400).body("Erro ao salvar valor"); 
+        }
+    }
+
 }

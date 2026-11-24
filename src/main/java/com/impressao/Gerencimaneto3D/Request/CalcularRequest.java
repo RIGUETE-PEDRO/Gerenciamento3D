@@ -1,4 +1,4 @@
-package com.impressao.Gerencimaneto3D.dto;
+package com.impressao.Gerencimaneto3D.Request;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;

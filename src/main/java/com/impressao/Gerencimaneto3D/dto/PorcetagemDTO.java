@@ -6,15 +6,15 @@ import lombok.Setter;
 @Getter 
 @Setter 
 
-public class Porcetagem {
+public class PorcetagemDTO {
  
     private String nome;
     private Double valor;
 
-    public Porcetagem() {
+    public PorcetagemDTO() {
     }
 
-    public Porcetagem(String nome, Double porcentagem) {
+    public PorcetagemDTO(String nome, Double porcentagem) {
         this.nome = nome;
         this.valor = porcentagem;
     }
